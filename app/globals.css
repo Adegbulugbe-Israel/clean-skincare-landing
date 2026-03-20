@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@import "tailwindcss";
+
+@theme inline {
+  --color-clean-black: #050505;
+  --color-clean-white: #FFFFFF;
+  --color-muted-slate: #64748B;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-instrument);
+}
+
+:root {
+  --background: #EAEAEA;
+  --foreground: #050505;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Hide scrollbar for a cleaner feel but keep functionality */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
