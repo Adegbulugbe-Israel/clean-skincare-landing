@@ -44,17 +44,18 @@ export default function Home() {
 
   const { scrollYProgress: lightModeProgress } = useScroll({
     target: lightSectionRef,
-    offset: ["start 100px", "start top"] 
+    offset: ["start 100px", "start start"] 
   });
 
   return (
-    <main className="bg-[#EAEAEA] min-h-screen text-clean-black relative overflow-x-hidden md:overflow-visible">
-      <Navbar lightModeProgress={lightModeProgress} />
+    <main className="bg-[#EAEAEA] min-h-screen text-clean-black relative">
+      {/* Removed scroll progress props entirely, Navbar elegantly manages itself natively now */}
+      <Navbar />
       <HeroCanvas />
-      <TravelingProduct fadeProgress={fadeProgress} />
+      <TravelingProduct fadeProgress={fadeProgress} ritualProgress={ritualProgress} />
 
       <div ref={lightSectionRef} className="relative z-10 bg-[#EAEAEA]">
-        <section id="formulation-results" className="py-24 md:py-48 px-6 max-w-screen-2xl mx-auto flex flex-col md:flex-row items-center justify-between border-t border-black/5">
+        <section id="formulation-results" className="py-24 md:py-48 px-6 max-w-screen-2xl mx-auto flex flex-col md:flex-row items-center justify-between border-t border-black/5 min-h-0 md:min-h-[80vh]">
           {/* Left Side: Formulation Text */}
           <div className="flex-1 max-w-lg text-center md:text-left z-10 relative md:pr-4 mb-24 md:mb-0">
             <h3 className="font-serif text-4xl md:text-5xl lg:text-6xl font-normal mb-[12px] tracking-tight text-clean-black leading-tight">
@@ -84,8 +85,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Updated: explicitly shift this container so children right-align uniformly */}
-        <section ref={ritualRef} id="ritual" className="py-24 md:py-32 px-6 max-w-7xl mx-auto border-t border-black/5 leading-none flex flex-col items-center md:items-end">
+        {/* Notice min-h-0 strictly resets mobile bounds so it naturally collapses excessive whitespace */}
+        <section ref={ritualRef} id="ritual" className="py-24 md:py-32 px-6 max-w-7xl mx-auto border-t border-black/5 leading-none flex flex-col items-center md:items-end min-h-0 md:min-h-[80vh]">
           <div className="max-w-xl w-full relative z-10 md:pl-0">
             <h3 className="font-serif text-5xl md:text-7xl lg:text-8xl font-normal mb-16 md:mb-24 tracking-tight text-center md:text-left text-clean-black">
               The Ritual
@@ -93,18 +94,14 @@ export default function Home() {
             
             {/* Timeline Wrapper inside Left Alignment Block */}
             <div className="relative flex flex-col gap-16 md:gap-24 text-center md:text-left md:pl-12">
-              
-              {/* Timeline background line */}
               <div className="absolute left-[13px] md:left-[14px] top-6 bottom-6 w-[2px] bg-black/5 hidden md:block" />
               
-              {/* Timeline progress line */}
               <motion.div 
                 style={{ scaleY: ritualProgress, transformOrigin: "top" }} 
                 className="absolute left-[13px] md:left-[14px] top-6 bottom-6 w-[2px] bg-clean-black hidden md:block" 
               />
 
               <div className="relative flex flex-col items-center md:items-start text-center md:text-left">
-                {/* Timeline Dot */}
                 <div className="absolute -left-[42px] top-4 w-3 h-3 rounded-full bg-clean-black ring-4 ring-[#EAEAEA] hidden md:block" />
                 
                 <span className="font-serif block text-5xl md:text-6xl font-normal text-black/10 mb-2 md:mb-4 tracking-tight">01</span>
@@ -113,7 +110,6 @@ export default function Home() {
               </div>
 
               <div className="relative flex flex-col items-center md:items-start text-center md:text-left">
-                {/* Timeline Dot */}
                 <div className="absolute -left-[42px] top-4 w-3 h-3 rounded-full bg-clean-black ring-4 ring-[#EAEAEA] shadow-[0_0_0_1px_rgba(5,5,5,0.1)] hidden md:block" />
 
                 <span className="font-serif block text-5xl md:text-6xl font-normal text-black/10 mb-2 md:mb-4 tracking-tight">02</span>
@@ -122,7 +118,6 @@ export default function Home() {
               </div>
 
               <div className="relative flex flex-col items-center md:items-start text-center md:text-left">
-                {/* Timeline Dot */}
                 <div className="absolute -left-[42px] top-4 w-3 h-3 rounded-full bg-clean-black ring-4 ring-[#EAEAEA] shadow-[0_0_0_1px_rgba(5,5,5,0.1)] hidden md:block" />
 
                 <span className="font-serif block text-5xl md:text-6xl font-normal text-black/10 mb-2 md:mb-4 tracking-tight">03</span>

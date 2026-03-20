@@ -4,25 +4,29 @@ import { motion, useScroll, useTransform, useSpring, MotionValue } from "framer-
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export default function TravelingProduct({ fadeProgress }: { fadeProgress: MotionValue<number> }) {
+export default function TravelingProduct({ fadeProgress, ritualProgress }: { fadeProgress: MotionValue<number>, ritualProgress?: MotionValue<number> }) {
   const { scrollYProgress } = useScroll();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
-    handleResize(); // trigger instantly on mount
+    handleResize(); 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  const opacity = useTransform(fadeProgress, [0, 1], [0, 1]);
-  const startScale = useTransform(fadeProgress, [0, 1], [0.2, 1]);
 
   const springProgress = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 0.001
   });
+
+  const desktopOpacity = useTransform(fadeProgress, [0, 1], [0, 1]);
+  // Mobile explicitly only renders the bottle in the final footer section
+  const mobileOpacity = useTransform(springProgress, [0.85, 0.95], [0, 1]);
+
+  const opacity = isMobile ? mobileOpacity : desktopOpacity;
+  const startScale = useTransform(fadeProgress, [0, 1], [0.2, 1]);
 
   const x = useTransform(
     springProgress,
@@ -34,7 +38,8 @@ export default function TravelingProduct({ fadeProgress }: { fadeProgress: Motio
   const y = useTransform(
     springProgress,
     [0.9, 0.95, 1],
-    ["0vh", "0vh", "-12vh"]
+    // Relax upward lift on mobile so it rests elegantly below the "Press" paragraph 
+    isMobile ? ["0vh", "0vh", "4vh"] : ["0vh", "0vh", "-12vh"]
   );
 
   const rotate = useTransform(
@@ -46,13 +51,12 @@ export default function TravelingProduct({ fadeProgress }: { fadeProgress: Motio
   const endScale = useTransform(
     springProgress, 
     [0.6, 0.8, 0.85, 0.95, 1], 
-    // Substantially scale down the bottle asset on mobile to avoid overcrowding
-    isMobile ? [0.8, 0.8, 0.8, 0.8, 0.8] : [1, 1, 1.8, 1.8, 1.1]
+    // Fit perfectly into mobile dimensions
+    isMobile ? [0.9, 0.9, 0.9, 0.9, 0.9] : [1, 1, 1.8, 1.8, 1.1]
   );
 
   return (
-    // Sink the bottle strictly to the background (-z-10 layer) on mobile with 15% opacity so it functions as a watermark
-    <div className={`fixed inset-0 flex items-center justify-center pointer-events-none ${isMobile ? '-z-10 opacity-[0.15]' : 'z-40'}`}>
+    <div className={`fixed inset-0 flex items-center justify-center pointer-events-none z-40`}>
       <motion.div 
         style={{ opacity, x, y, rotate, scale: endScale }}
         className="relative flex items-center justify-center"
@@ -63,7 +67,7 @@ export default function TravelingProduct({ fadeProgress }: { fadeProgress: Motio
             alt="Clean All-In-One Bottle"
             width={800}
             height={800}
-            className={`w-auto object-contain drop-shadow-2xl ${isMobile ? 'max-h-[35vh]' : 'max-h-[55vh]'}`}
+            className={`w-auto object-contain drop-shadow-2xl ${isMobile ? 'max-h-[45vh]' : 'max-h-[55vh]'}`}
             priority
           />
         </motion.div>

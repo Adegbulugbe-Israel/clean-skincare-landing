@@ -124,10 +124,10 @@ function OverlayCard({ section, scrollYProgress }: { section: typeof productData
       {/* Background shadow glow to guarantee perfect contrast against any video frame */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.45)_0%,transparent_50%)] -z-10" />
       
-      <h2 className="font-serif z-10 text-4xl md:text-5xl lg:text-7xl font-normal tracking-tight text-white mb-6 px-4 leading-tight uppercase drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
+      <h2 className="font-serif z-10 text-5xl sm:text-7xl md:text-9xl font-normal tracking-tight text-white mb-6 px-8 leading-[0.9] uppercase drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
         {section.title}
       </h2>
-      <p className="text-base md:text-xl z-10 text-white max-w-md font-light tracking-wide leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
+      <p className="text-base md:text-xl z-10 text-white max-w-md font-light tracking-wide leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] px-8">
         {section.subtitle}
       </p>
 
